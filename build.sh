@@ -290,6 +290,10 @@ if completeBuild || hasArg cuml || hasArg pydocs; then
         CUML_EXTRA_CMAKE_ARGS="${CUML_EXTRA_CMAKE_ARGS} -DFIND_CUML_CPP=ON"
     fi
 
+    if [[ "${CUML_EXTRA_PYTHON_ARGS}" == *"singlegpu"* ]]; then
+        CUML_EXTRA_CMAKE_ARGS="${CUML_EXTRA_CMAKE_ARGS} -DSINGLEGPU=ON"
+    fi
+
     cd ${REPODIR}/python
 
     python setup.py build_ext --inplace -- -DCMAKE_LIBRARY_PATH=${LIBCUML_BUILD_DIR} -DCMAKE_MESSAGE_LOG_LEVEL=${CMAKE_LOG_LEVEL} ${CUML_EXTRA_CMAKE_ARGS} -- -j${PARALLEL_LEVEL:-1}
